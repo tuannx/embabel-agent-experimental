@@ -1,0 +1,42 @@
+# Synthesize the final dogfood report consumed by the exported goal.
+stepType: action
+name: synthesizeDogfoodReport
+description: Merge review, quality gate, improvement plan, and interaction drafts into the final report
+value: 1.0
+llm:
+  model: deepseek-v4-flash
+  maxTokens: 384000
+  timeout: 10m
+inputTypeNames:
+  - com.embabel.agent.dogfood.domain.OssInteractionDrafts
+  - com.embabel.agent.dogfood.domain.DogfoodImprovementPlan
+outputTypeName: com.embabel.agent.dogfood.domain.DogfoodAnalysis
+prompt: |
+  Synthesize the final Embabel self-dogfood report for the OSS Java/Kotlin expert agent.
+
+  Produce the final user-facing Markdown report as DogfoodAnalysis.content.
+
+  Required headings (exact order):
+  ## Summary
+  ## Evidence
+  ## Risks
+  ## Recommended next actions
+  ## Publication decision
+  (STAY_LOCAL | NEEDS_WORK | RAISE_PR — copy from publication assessment)
+  ## Improvement plan
+  (Copy DogfoodImprovementPlan when NEEDS_WORK; otherwise state no iteration required)
+  ## OSS interactions (draft)
+  ## GOAP graph notes
+
+  Rules:
+  - Cite repository paths for material claims; mark UNVERIFIED gaps.
+  - Keep Summary under 150 words; interactions section may reuse draft content trimmed.
+  - Mention Embabel declarative dogfood (`embabel-agent-dogfood` YAML steps, GOAP tests).
+  - When NEEDS_WORK, note host loop: `dogfood-improve.sh` then re-run dogfood.
+  - Do not wrap the report in a code fence.
+
+  Interaction drafts:
+  {{ossInteractionDrafts.content}}
+
+  Improvement plan:
+  {{dogfoodImprovementPlan.content}}

@@ -1,0 +1,12 @@
+id: experimental
+label: Embabel Experimental
+description: embabel-agent-experimental checkout (dogfood image + DSL sync target).
+env:
+  root: EMBABEL_EXPERIMENTAL_ROOT
+lock:
+  file: dogfood/runtime.lock
+  commitKey: commit
+  imageKey: image
+  digestKey: digest
+defaults:
+  root: ../embabel-agent-experimental

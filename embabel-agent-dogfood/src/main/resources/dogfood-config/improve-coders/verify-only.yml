@@ -1,0 +1,6 @@
+# Skip coding agent; run verify commands from improvement plan only.
+id: verify-only
+label: Verify only
+description: No coding agent invocation — contract test and plan verify commands only.
+host:
+  backend: verify-only

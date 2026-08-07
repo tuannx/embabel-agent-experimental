@@ -31,6 +31,7 @@
         <module>embabel-agent-spec</module>
         <module>embabel-api-client</module>
         <module>embabel-experimental-integration-tests</module>
+        <module>embabel-agent-dogfood</module>
     </modules>
 
     <scm>

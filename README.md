@@ -68,6 +68,18 @@ The following modules are currently in the experimental repository:
 | **embabel-agent-spec** | Specification and contract testing utilities | Active Development |
 | **embabel-api-client** | Smart API learner tool | Active Development |
 | **embabel-experimental-integration-tests** | Hosts various integration tests | Active Development |
+| **embabel-agent-dogfood** | Declarative YAML self-review graph for Embabel and DeepSeek | Active Development |
+
+## Declarative dogfooding graph
+
+The dogfood module is currently in the first migration stage: the agent graph is
+defined only by Embabel YAML step specs under
+[`embabel-agent-dogfood/src/main/resources/steps`](embabel-agent-dogfood/src/main/resources/steps),
+with DeepSeek model selection and token limits in `application.yml`. No
+dogfood-specific Kotlin source remains. See
+[`DSL_MIGRATION.md`](embabel-agent-dogfood/DSL_MIGRATION.md) for the pending
+generic loader, read-only snapshot primitive, and report sink needed before the
+Docker image is executable again.
 
 ## Using Experimental Modules
 

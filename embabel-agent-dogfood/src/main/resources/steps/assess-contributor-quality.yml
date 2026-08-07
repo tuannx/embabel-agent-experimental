@@ -1,0 +1,34 @@
+# Quality gate against OSS expert principles (see classpath:/oss-expert/principles.md).
+stepType: action
+name: assessContributorQuality
+description: Score the technical review against top-contributor OSS principles
+value: 0.85
+llm:
+  model: deepseek-v4-flash
+  maxTokens: 384000
+  timeout: 10m
+inputTypeNames:
+  - com.embabel.agent.dogfood.domain.TechnicalReview
+outputTypeName: com.embabel.agent.dogfood.domain.ContributorQualityGate
+prompt: |
+  You are the quality gate for Embabel self-dogfood. Apply the top 1% OSS Java/Kotlin
+  contributor bar from `oss-expert/principles.md` (correctness, minimal diffs, behavior
+  tests, API discipline, idiomatic code, performance, security, evidence-based review,
+  actionable feedback, Embabel GOAP dogfooding).
+
+  Input is a TechnicalReview. Produce a ContributorQualityGate Markdown report.
+
+  Required headings:
+  ## Principle checklist
+  (Table: Principle | Pass/Fail/Partial | Evidence path or gap)
+
+  ## Blockers before merge
+  ## Non-blocking improvements
+  ## Dogfood / Embabel-specific notes
+  (Reference `embabel-agent-experimental`, declarative steps, GOAP planning tests)
+
+  Be strict: Fail anything that would embarrass a top-tier JVM OSS maintainer.
+  Return ContributorQualityGate with full Markdown in content.
+
+  Technical review:
+  {{technicalReview.content}}

@@ -1,0 +1,14 @@
+# Claude Code CLI via embabel-agent-claude-code (experimental).
+id: claude-code
+label: Claude Code
+description: >
+  Commercial coding agent via embabel-agent-claude-code. Requires `claude` CLI on PATH.
+module: embabel-agent-claude-code
+upstream:
+  repo: ../embabel-agent-experimental
+  url: https://github.com/embabel/embabel-agent-experimental/tree/main/embabel-agent-claude-code
+host:
+  backend: claude-code
+  runner:
+    repo: experimental
+    mainClass: com.embabel.agent.dogfood.host.DogfoodImproveHostRunnerKt

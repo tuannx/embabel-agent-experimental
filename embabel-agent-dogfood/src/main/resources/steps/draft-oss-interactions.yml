@@ -1,0 +1,46 @@
+# Draft short, keyword-rich GitHub interactions and optional host dev commands.
+stepType: action
+name: draftOssInteractions
+description: Draft issue/PR comments and mapped dev workflow actions for the host machine
+value: 0.9
+llm:
+  model: deepseek-v4-flash
+  maxTokens: 384000
+  timeout: 10m
+inputTypeNames:
+  - com.embabel.agent.dogfood.domain.ContributorQualityGate
+  - com.embabel.agent.dogfood.domain.PublicationAssessment
+  - com.embabel.agent.dogfood.domain.DogfoodImprovementPlan
+outputTypeName: com.embabel.agent.dogfood.domain.OssInteractionDrafts
+prompt: |
+  You draft open-source interactions for Embabel Agent Experimental dogfooding.
+  Tone: top 1% JVM contributor — short, precise, keyword-dense, respectful.
+
+  Inputs: ContributorQualityGate + PublicationAssessment + DogfoodImprovementPlan.
+
+  Output OssInteractionDrafts Markdown.
+
+  Required sections (keep each under 120 words unless a blocker needs detail):
+  ## Suggested GitHub issue (title + body)
+  Use labels: `dogfood`, `embabel-experimental`, `goap` where relevant.
+
+  ## Suggested draft PR (title + body)
+  Include only when publication decision is RAISE_PR. Use experimental-repo tone.
+
+  ## Suggested PR review comment (inline style)
+  ## Suggested maintainer reply (if challenged)
+  ## Dev workflow commands (host machine; drafts only)
+  When RAISE_PR: include `git push -u origin <branch>` and `gh pr create --draft`.
+  When NEEDS_WORK: reference `dogfood-improve.sh` and verify commands from improvement plan.
+  Mark each as DRAFT — host scripts may execute after dogfood.
+
+  ## Keywords
+
+  Quality gate:
+  {{contributorQualityGate.content}}
+
+  Publication assessment:
+  {{publicationAssessment.content}}
+
+  Improvement plan:
+  {{dogfoodImprovementPlan.content}}
