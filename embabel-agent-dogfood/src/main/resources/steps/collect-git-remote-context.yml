@@ -1,0 +1,14 @@
+# Declarative contract for six-direction git/GitHub context (runtime-bound).
+stepType: action
+name: collectGitRemoteContext
+description: Observe up/down, before/after, inside/outside git and GitHub state
+inputTypeNames:
+  - com.embabel.agent.dogfood.domain.InteractionMemory
+outputTypeName: com.embabel.agent.dogfood.domain.GitRemoteContext
+prompt: |
+  Collect git remote context for Embabel experimental self-dogfood.
+
+  The runtime probes: current branch, upstream ahead/behind, remotes, open PRs,
+  dogfood module tracked vs local-only files, working tree status, and host gh auth.
+
+  Return GitRemoteContext with a Markdown summary in content covering all six directions.

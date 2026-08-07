@@ -1,0 +1,61 @@
+# Plan bounded host-side improvements when publication decision is NEEDS_WORK.
+stepType: action
+name: planDogfoodImprovements
+description: Produce a scoped improvement plan for host execution after NEEDS_WORK
+value: 0.87
+llm:
+  model: deepseek-v4-flash
+  maxTokens: 384000
+  timeout: 10m
+inputTypeNames:
+  - com.embabel.agent.dogfood.domain.PublicationAssessment
+  - com.embabel.agent.dogfood.domain.ContributorQualityGate
+  - com.embabel.agent.dogfood.domain.GitRemoteContext
+outputTypeName: com.embabel.agent.dogfood.domain.DogfoodImprovementPlan
+prompt: |
+  You plan bounded improvements for Embabel Agent Experimental dogfooding on the **host**
+  (Docker repo mount is read-only). The host script `dogfood-improve.sh` consumes this plan
+  and dispatches to the configured improve coder (`DOGFOOD_IMPROVE_CODER`, profiles under
+  `dogfood/config/improve-coders/`). Default: `code` (embabel-agent-code).
+
+  Inputs: PublicationAssessment + ContributorQualityGate + GitRemoteContext.
+
+  If publication decision is STAY_LOCAL or RAISE_PR, output a short DogfoodImprovementPlan stating
+  no host improvement iteration is required.
+
+  If decision is NEEDS_WORK, produce a concrete, minimal plan to clear blockers before RAISE_PR.
+
+  Required Markdown in content (exact headings use ### for subsections):
+  ### Improvement iteration
+  (NEEDS_WORK iteration | skip)
+
+  ### Scoped paths
+  Bullet list of repo-relative paths the host may modify (allowlist only), e.g.:
+  - dogfood/steps/
+  - dogfood/schema/
+  - scripts/dogfood-contract-test.py
+  - docs/DOGFOOD.md
+
+  ### Verify commands
+  Fenced bash block with 1–4 commands the host must run after improvements, e.g.:
+  ```bash
+  python3 -m pip install -r scripts/requirements.txt
+  python3 scripts/dogfood-contract-test.py
+  git diff --check
+  ```
+
+  ### Host improvement steps
+  Numbered steps for a coding agent or maintainer (patch plan, tests to add, files to commit).
+  Stay within scoped paths. Do not propose new infrastructure.
+
+  ### Stop conditions
+  When to stop iterating vs escalate to human review.
+
+  Publication assessment:
+  {{publicationAssessment.content}}
+
+  Quality gate:
+  {{contributorQualityGate.content}}
+
+  Git context:
+  {{gitRemoteContext.content}}

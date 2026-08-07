@@ -1,0 +1,10 @@
+# Cursor CLI agent (host-only, no Embabel module).
+id: cursor
+label: Cursor Agent
+description: Host `cursor agent` CLI when available. No upstream Embabel module.
+host:
+  backend: cursor
+  command: cursor
+  args:
+    - agent
+    - --print

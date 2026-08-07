@@ -1,0 +1,23 @@
+# Host-side improve step template (not part of the GOAP graph).
+# Consumed by the code improve backend via embabel-agent-code + SoftwareProject.
+# Synced to experimental classpath for host runners; not validated as a graph step.
+stepType: action
+name: applyDogfoodImprovements
+description: Apply DogfoodImprovementPlan on the host using SoftwareProject tools
+llm:
+  model: deepseek-v4-flash
+  maxTokens: 384000
+  timeout: 30m
+inputTypeNames:
+  - com.embabel.agent.dogfood.domain.DogfoodImprovementPlan
+outputTypeName: com.embabel.agent.dogfood.domain.DogfoodImprovementResult
+references:
+  - softwareProject
+prompt: |
+  You are a host-side coding agent applying a dogfood improvement plan for NomiNomi.
+  Use SoftwareProject tools to read, edit, and build within scoped paths only.
+  Do not push to git remotes unless explicitly asked.
+  Prefer DSL changes in dogfood/steps and dogfood/config over patching Embabel upstream.
+
+  Improvement plan:
+  {{dogfoodImprovementPlan.content}}

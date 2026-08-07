@@ -1,0 +1,23 @@
+# Declarative contract for loading prior dogfood interaction memory.
+#
+# Runtime binds this step to local history + optional GitHub threads (gh CLI).
+# Conversation continuity follows host improve session (build/dogfood/improve-session.json).
+stepType: action
+name: loadInteractionMemory
+description: Load prior dogfood runs from local history and GitHub dogfood-labeled issues
+inputTypeNames:
+  - UserInput
+outputTypeName: com.embabel.agent.dogfood.domain.InteractionMemory
+prompt: |
+  Load interaction memory for Embabel self-dogfood.
+
+  The runtime reads:
+  - `{output}/history/index.json` and per-run JSON on disk
+  - GitHub issues labeled `dogfood` when GH_TOKEN/GITHUB_TOKEN is available
+  - Optional improve coder `sessionId` for host-side resume (see dogfood/config/improve-coders/)
+
+  Return InteractionMemory with the user task and a Markdown summary of prior runs.
+  Do not fabricate history.
+
+  User task:
+  {{userInput.content | esc}}

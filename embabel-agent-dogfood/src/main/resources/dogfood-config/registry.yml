@@ -1,0 +1,27 @@
+# NomiNomi dogfood component registry (Strategy + config-driven wiring).
+# Root names are generic; implementation ids live under each kind's configDir.
+# Switch via dogfood.env (see each kind.env) or per-profile defaults below.
+version: 1
+
+defaults:
+  improveCoder: code
+  llmProvider: deepseek
+  runtimeTarget: experimental
+
+kinds:
+  improveCoder:
+    description: Host-side coding agent that applies DogfoodImprovementPlan
+    env: DOGFOOD_IMPROVE_CODER
+    configDir: improve-coders
+    implementationsDir: implementations/improve-coders
+    sessionFile: build/dogfood/improve-session.json
+
+  llmProvider:
+    description: LLM used by in-container GOAP steps and host code backends
+    env: DOGFOOD_LLM_PROVIDER
+    configDir: llm-providers
+
+  runtimeTarget:
+    description: Embabel runtime checkout used to build the dogfood image
+    env: DOGFOOD_RUNTIME_TARGET
+    configDir: runtime-targets

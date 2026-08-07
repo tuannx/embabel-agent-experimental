@@ -27,6 +27,8 @@ build.log
 
 # Miscellaneous
 .env
+dogfood.env
+/build/
 
 # Mac OSX aux files
 .DS_Store

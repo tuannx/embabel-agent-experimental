@@ -1,0 +1,6 @@
+# Exporting the goal lets a runtime launcher invoke the complete OSS-expert graph.
+stepType: goal
+name: produceDogfoodReport
+description: Produce the top 1% OSS Java/Kotlin expert self-dogfood report
+outputTypeName: com.embabel.agent.dogfood.domain.DogfoodAnalysis
+export: true

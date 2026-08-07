@@ -1,0 +1,21 @@
+# Default improve coder: embabel-agent-code (SoftwareProject tools + DeepSeek tool loop).
+id: code
+label: Embabel Agent Code
+description: >
+  Native Embabel coding domain library. Uses SoftwareProject file/git/build tools
+  from embabel-agent-code with the configured LLM provider on the host.
+module: embabel-agent-code
+upstream:
+  repo: ../embabel-agent
+  url: https://github.com/embabel/embabel-agent/tree/main/embabel-agent-code
+host:
+  backend: code
+  runner:
+    repo: experimental
+    mainClass: com.embabel.agent.dogfood.host.DogfoodImproveHostRunnerKt
+dsl:
+  applyStep: apply-dogfood-improvements
+  toolGroups: []
+  references:
+    - softwareProject
+fallback: claude-code
