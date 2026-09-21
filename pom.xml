@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.embabel.agent</groupId>
         <artifactId>embabel-agent-parent</artifactId>
-        <version>1.5.2-SNAPSHOT</version>
+        <version>1.5.3-SNAPSHOT</version>
     </parent>
     <!--
     <groupId>com.embabel.agent</groupId>
@@ -15,8 +15,8 @@
     <packaging>pom</packaging>
 
     <properties>
-        <revision>1.5.1-SNAPSHOT</revision>
-        <embabel-agent.version>1.5.2-SNAPSHOT</embabel-agent.version>
+        <revision>1.5.3-SNAPSHOT</revision>
+        <embabel-agent.version>1.5.3-SNAPSHOT</embabel-agent.version>
         <victools.version>5.0.0</victools.version>
     </properties>
     <name>Embabel Example Agent Experimental</name>
