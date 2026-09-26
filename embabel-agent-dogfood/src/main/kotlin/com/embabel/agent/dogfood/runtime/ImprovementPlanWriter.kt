@@ -43,8 +43,11 @@ object ImprovementPlanWriter {
         )
         Files.createDirectories(outputDirectory)
         val jsonPath = outputDirectory.resolve("improvement-plan.json")
+        // Host improve scripts may leave these files owned by another uid; replace instead of overwrite.
+        Files.deleteIfExists(jsonPath)
         mapper.writerWithDefaultPrettyPrinter().writeValue(jsonPath.toFile(), payload)
         val promptPath = outputDirectory.resolve("improve-prompt.md")
+        Files.deleteIfExists(promptPath)
         Files.writeString(promptPath, plan.content)
         return jsonPath
     }

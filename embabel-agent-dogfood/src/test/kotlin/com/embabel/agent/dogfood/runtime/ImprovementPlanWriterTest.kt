@@ -80,6 +80,17 @@ class ImprovementPlanWriterTest {
     }
 
     @Test
+    fun `write replaces a read-only prompt left by the host`(@TempDir dir: Path) {
+        val stale = dir.resolve("improve-prompt.md")
+        Files.writeString(stale, "stale")
+        stale.toFile().setWritable(false)
+
+        ImprovementPlanWriter.write(dir, "NEEDS_WORK", DogfoodImprovementPlan(samplePlan))
+
+        assertEquals(samplePlan, Files.readString(stale))
+    }
+
+    @Test
     fun `parseFromReport reads improvement plan section`() {
         val markdown = """
             ## Publication decision

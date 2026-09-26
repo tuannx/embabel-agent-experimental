@@ -86,13 +86,18 @@ class RepositorySnapshotService(
             if (!Files.isRegularFile(file)) {
                 continue
             }
-            val content = Files.readAllBytes(file)
+            val bytes = Files.readAllBytes(file)
+            val content = bytes
                 .take(properties.maxFileBytes)
                 .toByteArray()
                 .toString(StandardCharsets.UTF_8)
             val section = buildString {
                 appendLine("--- $relativePath ---")
                 appendLine(content)
+                if (bytes.size > properties.maxFileBytes) {
+                    // Explicit marker: without it the LLM reports the file itself as truncated.
+                    appendLine("--- snapshot excerpt: first ${properties.maxFileBytes} of ${bytes.size} bytes; file continues on disk ---")
+                }
                 appendLine()
             }
             if (section.length > remainingBytes) {
